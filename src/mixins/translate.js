@@ -6,10 +6,12 @@ export default {
      */
     lang() {
       // If selected translations exists
-      if (Object.prototype.hasOwnProperty.call(
-        this.$store.state.fm.settings.translations,
-        this.$store.state.fm.settings.lang,
-      )) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          this.$store.state.fm.settings.translations,
+          this.$store.state.fm.settings.lang
+        )
+      ) {
         return this.$store.state.fm.settings.translations[
           this.$store.state.fm.settings.lang
         ];

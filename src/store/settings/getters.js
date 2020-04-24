@@ -23,6 +23,6 @@ export default {
    * @return {boolean}
    */
   authHeader(state) {
-    return Object.prototype.hasOwnProperty.call(state.headers, 'Authorization');
+    return Object.prototype.hasOwnProperty.call(state.headers, "Authorization");
   },
 };

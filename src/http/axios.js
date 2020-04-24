@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 // set new axios instance
-export default axios.create();
+export default axios.create({ crossDomain: true });

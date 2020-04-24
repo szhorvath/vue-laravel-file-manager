@@ -1,6 +1,6 @@
 /* eslint-disable max-len,prefer-destructuring,object-curly-newline */
-import GET from '../http/get';
-import POST from '../http/post';
+import GET from "../http/get";
+import POST from "../http/post";
 
 export default {
   /**
@@ -12,9 +12,9 @@ export default {
    */
   initializeApp({ state, commit, getters, dispatch }) {
     GET.initialize().then((response) => {
-      if (response.data.result.status === 'success') {
-        commit('settings/initSettings', response.data.config);
-        commit('setDisks', response.data.config.disks);
+      if (response.data.result.status === "success") {
+        commit("settings/initSettings", response.data.config);
+        commit("setDisks", response.data.config.disks);
 
         let leftDisk = response.data.config.leftDisk
           ? response.data.config.leftDisk
@@ -32,59 +32,59 @@ export default {
         if (window.location.search) {
           const params = new URLSearchParams(window.location.search);
 
-          if (params.get('leftDisk')) {
-            leftDisk = params.get('leftDisk');
+          if (params.get("leftDisk")) {
+            leftDisk = params.get("leftDisk");
           }
 
-          if (params.get('rightDisk')) {
-            rightDisk = params.get('rightDisk');
+          if (params.get("rightDisk")) {
+            rightDisk = params.get("rightDisk");
           }
 
-          if (params.get('leftPath')) {
-            leftPath = params.get('leftPath');
+          if (params.get("leftPath")) {
+            leftPath = params.get("leftPath");
           }
 
-          if (params.get('rightPath')) {
-            rightPath = params.get('rightPath');
+          if (params.get("rightPath")) {
+            rightPath = params.get("rightPath");
           }
         }
 
-        commit('left/setDisk', leftDisk);
+        commit("left/setDisk", leftDisk);
 
         // if leftPath not null
         if (leftPath) {
-          commit('left/setSelectedDirectory', leftPath);
-          commit('left/addToHistory', leftPath);
+          commit("left/setSelectedDirectory", leftPath);
+          commit("left/addToHistory", leftPath);
         }
 
-        dispatch('getLoadContent', {
-          manager: 'left',
+        dispatch("getLoadContent", {
+          manager: "left",
           disk: leftDisk,
           path: leftPath,
         });
 
         // if selected left and right managers
         if (state.settings.windowsConfig === 3) {
-          commit('right/setDisk', rightDisk);
+          commit("right/setDisk", rightDisk);
 
           // if rightPath not null
           if (rightPath) {
-            commit('right/setSelectedDirectory', rightPath);
-            commit('right/addToHistory', rightPath);
+            commit("right/setSelectedDirectory", rightPath);
+            commit("right/addToHistory", rightPath);
           }
 
-          dispatch('getLoadContent', {
-            manager: 'right',
+          dispatch("getLoadContent", {
+            manager: "right",
             disk: rightDisk,
             path: rightPath,
           });
         } else if (state.settings.windowsConfig === 2) {
           // if selected left manager and directories tree
           // init directories tree
-          dispatch('tree/initTree', leftDisk).then(() => {
+          dispatch("tree/initTree", leftDisk).then(() => {
             if (leftPath) {
               // reopen folders if path not null
-              dispatch('tree/reopenPath', leftPath);
+              dispatch("tree/reopenPath", leftPath);
             }
           });
         }
@@ -101,7 +101,7 @@ export default {
    */
   getLoadContent(context, { manager, disk, path }) {
     GET.content(disk, path).then((response) => {
-      if (response.data.result.status === 'success') {
+      if (response.data.result.status === "success") {
         context.commit(`${manager}/setDirectoryContent`, response.data);
       }
     });
@@ -118,7 +118,7 @@ export default {
   selectDisk({ state, commit, dispatch }, { disk, manager }) {
     GET.selectDisk(disk).then((response) => {
       // if disk exist => change disk
-      if (response.data.result.status === 'success') {
+      if (response.data.result.status === "success") {
         // set disk name
         commit(`${manager}/setDisk`, disk);
 
@@ -127,7 +127,7 @@ export default {
 
         // reinitialize tree if directories tree is shown
         if (state.settings.windowsConfig === 2) {
-          dispatch('tree/initTree', disk);
+          dispatch("tree/initTree", disk);
         }
 
         // download content for root path
@@ -148,18 +148,21 @@ export default {
     const selectedDirectory = getters.selectedDirectory;
 
     // create new file, server side
-    return POST.createFile(getters.selectedDisk, selectedDirectory, fileName)
-      .then((response) => {
+    return POST.createFile(
+      getters.selectedDisk,
+      selectedDirectory,
+      fileName
+    ).then((response) => {
       // update file list
-        dispatch('updateContent', {
-          response,
-          oldDir: selectedDirectory,
-          commitName: 'addNewFile',
-          type: 'file',
-        });
-
-        return response;
+      dispatch("updateContent", {
+        response,
+        oldDir: selectedDirectory,
+        commitName: "addNewFile",
+        type: "file",
       });
+
+      return response;
+    });
   },
 
   /**
@@ -183,11 +186,11 @@ export default {
   updateFile({ getters, dispatch }, formData) {
     return POST.updateFile(formData).then((response) => {
       // update file list
-      dispatch('updateContent', {
+      dispatch("updateContent", {
         response,
         oldDir: getters.selectedDirectory,
-        commitName: 'updateFile',
-        type: 'file',
+        commitName: "updateFile",
+        type: "file",
       });
 
       return response;
@@ -212,11 +215,11 @@ export default {
       name,
     }).then((response) => {
       // update file list
-      dispatch('updateContent', {
+      dispatch("updateContent", {
         response,
         oldDir: selectedDirectory,
-        commitName: 'addNewDirectory',
-        type: 'directory',
+        commitName: "addNewDirectory",
+        type: "directory",
       });
 
       return response;
@@ -238,41 +241,45 @@ export default {
 
     // create new form data
     const data = new FormData();
-    data.append('disk', getters.selectedDisk);
-    data.append('path', selectedDirectory || '');
-    data.append('overwrite', overwrite);
+    data.append("disk", getters.selectedDisk);
+    data.append("path", selectedDirectory || "");
+    data.append("overwrite", overwrite);
     // add file or files
     for (let i = 0; i < files.length; i += 1) {
-      data.append('files[]', files[i]);
+      data.append("files[]", files[i]);
     }
 
     // axios config - progress bar
     const config = {
       onUploadProgress(progressEvent) {
-        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        commit('messages/setProgress', progress);
+        const progress = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        commit("messages/setProgress", progress);
       },
     };
 
     // upload files
-    return POST.upload(data, config).then((response) => {
-      // clear progress
-      commit('messages/clearProgress');
+    return POST.upload(data, config)
+      .then((response) => {
+        // clear progress
+        commit("messages/clearProgress");
 
-      // if files uploaded successfully
-      if (
-        response.data.result.status === 'success'
-        && selectedDirectory === getters.selectedDirectory
-      ) {
-        // refresh content
-        dispatch('refreshManagers');
-      }
+        // if files uploaded successfully
+        if (
+          response.data.result.status === "success" &&
+          selectedDirectory === getters.selectedDirectory
+        ) {
+          // refresh content
+          dispatch("refreshManagers");
+        }
 
-      return response;
-    }).catch(() => {
-      // clear progress
-      commit('messages/clearProgress');
-    });
+        return response;
+      })
+      .catch(() => {
+        // clear progress
+        commit("messages/clearProgress");
+      });
   },
 
   /**
@@ -289,14 +296,14 @@ export default {
       items,
     }).then((response) => {
       // if all items deleted successfully
-      if (response.data.result.status === 'success') {
+      if (response.data.result.status === "success") {
         // refresh content
-        dispatch('refreshManagers');
+        dispatch("refreshManagers");
 
         // delete directories from tree
         if (state.settings.windowsConfig === 2) {
-          const onlyDir = items.filter(item => item.type === 'dir');
-          dispatch('tree/deleteFromTree', onlyDir);
+          const onlyDir = items.filter((item) => item.type === "dir");
+          dispatch("tree/deleteFromTree", onlyDir);
         }
       }
 
@@ -318,13 +325,13 @@ export default {
       clipboard: state.clipboard,
     }).then((response) => {
       // if the action was successful
-      if (response.data.result.status === 'success') {
+      if (response.data.result.status === "success") {
         // refresh content
-        dispatch('refreshAll');
+        dispatch("refreshAll");
 
         // if action - cut - clear clipboard
-        if (state.clipboard.type === 'cut') {
-          commit('resetClipboard');
+        if (state.clipboard.type === "cut") {
+          commit("resetClipboard");
         }
       }
     });
@@ -346,10 +353,10 @@ export default {
       oldName,
     }).then((response) => {
       // refresh content
-      if (type === 'dir') {
-        dispatch('refreshAll');
+      if (type === "dir") {
+        dispatch("refreshAll");
       } else {
-        dispatch('refreshManagers');
+        dispatch("refreshManagers");
       }
 
       return response;
@@ -385,11 +392,12 @@ export default {
       elements: state[state.activeManager].selected,
     }).then((response) => {
       // if zipped successfully
-      if (response.data.result.status === 'success'
-          && selectedDirectory === getters.selectedDirectory
+      if (
+        response.data.result.status === "success" &&
+        selectedDirectory === getters.selectedDirectory
       ) {
         // refresh content
-        dispatch('refreshManagers');
+        dispatch("refreshManagers");
       }
 
       return response;
@@ -412,11 +420,12 @@ export default {
       folder,
     }).then((response) => {
       // if unzipped successfully
-      if (response.data.result.status === 'success'
-          && selectedDirectory === getters.selectedDirectory
+      if (
+        response.data.result.status === "success" &&
+        selectedDirectory === getters.selectedDirectory
       ) {
         // refresh
-        dispatch('refreshAll');
+        dispatch("refreshAll");
       }
 
       return response;
@@ -433,7 +442,7 @@ export default {
   toClipboard({ state, commit, getters }, type) {
     // if files are selected
     if (getters[`${state.activeManager}/selectedCount`]) {
-      commit('setClipboard', {
+      commit("setClipboard", {
         type,
         disk: state[state.activeManager].selectedDisk,
         directories: state[state.activeManager].selected.directories.slice(0),
@@ -453,14 +462,14 @@ export default {
     if (state.settings.windowsConfig === 3) {
       return Promise.all([
         // left manager
-        dispatch('left/refreshDirectory'),
+        dispatch("left/refreshDirectory"),
         // right manager
-        dispatch('right/refreshDirectory'),
+        dispatch("right/refreshDirectory"),
       ]);
     }
 
     // only left manager
-    return dispatch('left/refreshDirectory');
+    return dispatch("left/refreshDirectory");
   },
 
   /**
@@ -473,15 +482,17 @@ export default {
   refreshAll({ state, getters, dispatch }) {
     if (state.settings.windowsConfig === 2) {
       // refresh tree
-      return dispatch('tree/initTree', state.left.selectedDisk).then(() => Promise.all([
-        // reopen folders if need
-        dispatch('tree/reopenPath', getters.selectedDirectory),
-        // refresh manager/s
-        dispatch('refreshManagers'),
-      ]));
+      return dispatch("tree/initTree", state.left.selectedDisk).then(() =>
+        Promise.all([
+          // reopen folders if need
+          dispatch("tree/reopenPath", getters.selectedDirectory),
+          // refresh manager/s
+          dispatch("refreshManagers"),
+        ])
+      );
     }
     // refresh manager/s
-    return dispatch('refreshManagers');
+    return dispatch("refreshManagers");
   },
 
   /**
@@ -508,21 +519,24 @@ export default {
    * @param commitName
    * @param type
    */
-  updateContent({ state, commit, getters, dispatch }, { response, oldDir, commitName, type }) {
+  updateContent(
+    { state, commit, getters, dispatch },
+    { response, oldDir, commitName, type }
+  ) {
     // if operation success
     if (
-      response.data.result.status === 'success' &&
+      response.data.result.status === "success" &&
       oldDir === getters.selectedDirectory
     ) {
       // add/update file/folder in to the files/folders list
       commit(`${state.activeManager}/${commitName}`, response.data[type]);
       // repeat sort
-      dispatch('repeatSort', state.activeManager);
+      dispatch("repeatSort", state.activeManager);
 
       // if tree module is showing
-      if (type === 'directory' && state.settings.windowsConfig === 2) {
+      if (type === "directory" && state.settings.windowsConfig === 2) {
         // update tree module
-        dispatch('tree/addToTree', {
+        dispatch("tree/addToTree", {
           parentPath: oldDir,
           newDirectory: response.data.tree,
         });
@@ -536,7 +550,7 @@ export default {
         // add/update file/folder in to the files/folders list (inactive manager)
         commit(`${getters.inactiveManager}/${commitName}`, response.data[type]);
         // repeat sort
-        dispatch('repeatSort', getters.inactiveManager);
+        dispatch("repeatSort", getters.inactiveManager);
       }
     }
   },
@@ -548,36 +562,36 @@ export default {
    */
   resetState({ state, commit }) {
     // left manager
-    commit('left/setDisk', null);
-    commit('left/setSelectedDirectory', null);
-    commit('left/setDirectoryContent', { directories: [], files: [] });
-    commit('left/resetSelected');
-    commit('left/resetSortSettings');
-    commit('left/resetHistory');
-    commit('left/setView', 'table');
+    commit("left/setDisk", null);
+    commit("left/setSelectedDirectory", null);
+    commit("left/setDirectoryContent", { directories: [], files: [] });
+    commit("left/resetSelected");
+    commit("left/resetSortSettings");
+    commit("left/resetHistory");
+    commit("left/setView", "table");
     // modals
-    commit('modal/clearModal');
+    commit("modal/clearModal");
     // messages
-    commit('messages/clearActionResult');
-    commit('messages/clearProgress');
-    commit('messages/clearLoading');
-    commit('messages/clearErrors');
+    commit("messages/clearActionResult");
+    commit("messages/clearProgress");
+    commit("messages/clearLoading");
+    commit("messages/clearErrors");
 
     if (state.settings.windowsConfig === 3) {
       // right manager
-      commit('right/setDisk', null);
-      commit('right/setSelectedDirectory', null);
-      commit('right/setDirectoryContent', { directories: [], files: [] });
-      commit('right/resetSelected');
-      commit('right/resetSortSettings');
-      commit('right/resetHistory');
-      commit('right/setView', 'table');
+      commit("right/setDisk", null);
+      commit("right/setSelectedDirectory", null);
+      commit("right/setDirectoryContent", { directories: [], files: [] });
+      commit("right/resetSelected");
+      commit("right/resetSortSettings");
+      commit("right/resetHistory");
+      commit("right/setView", "table");
     } else if (state.settings.windowsConfig === 2) {
       // tree
-      commit('tree/cleanTree');
-      commit('tree/clearTempArray');
+      commit("tree/cleanTree");
+      commit("tree/clearTempArray");
     }
 
-    commit('resetState');
+    commit("resetState");
   },
 };

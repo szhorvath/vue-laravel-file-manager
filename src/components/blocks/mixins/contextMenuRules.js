@@ -9,7 +9,7 @@ export default {
      * @returns {boolean}
      */
     openRule() {
-      return !this.multiSelect && this.firstItemType === 'dir';
+      return !this.multiSelect && this.firstItemType === "dir";
     },
 
     /**
@@ -17,8 +17,10 @@ export default {
      * @returns {boolean}
      */
     audioPlayRule() {
-      return this.selectedItems.every(elem => elem.type === 'file') &&
-          this.selectedItems.every(elem => this.canAudioPlay(elem.extension));
+      return (
+        this.selectedItems.every((elem) => elem.type === "file") &&
+        this.selectedItems.every((elem) => this.canAudioPlay(elem.extension))
+      );
     },
 
     /**
@@ -26,7 +28,9 @@ export default {
      * @returns {boolean}
      */
     videoPlayRule() {
-      return !this.multiSelect && this.canVideoPlay(this.selectedItems[0].extension);
+      return (
+        !this.multiSelect && this.canVideoPlay(this.selectedItems[0].extension)
+      );
     },
 
     /**
@@ -34,9 +38,11 @@ export default {
      * @returns {boolean|*}
      */
     viewRule() {
-      return !this.multiSelect &&
-          this.firstItemType === 'file' &&
-          this.canView(this.selectedItems[0].extension);
+      return (
+        !this.multiSelect &&
+        this.firstItemType === "file" &&
+        this.canView(this.selectedItems[0].extension)
+      );
     },
 
     /**
@@ -44,9 +50,11 @@ export default {
      * @returns {boolean|*}
      */
     editRule() {
-      return !this.multiSelect &&
-          this.firstItemType === 'file' &&
-          this.canEdit(this.selectedItems[0].extension);
+      return (
+        !this.multiSelect &&
+        this.firstItemType === "file" &&
+        this.canEdit(this.selectedItems[0].extension)
+      );
     },
 
     /**
@@ -54,8 +62,11 @@ export default {
      * @returns {boolean|null}
      */
     selectRule() {
-      return !this.multiSelect && this.firstItemType === 'file' &&
-          this.$store.state.fm.fileCallback;
+      return (
+        !this.multiSelect &&
+        this.firstItemType === "file" &&
+        this.$store.state.fm.fileCallback
+      );
     },
 
     /**
@@ -63,7 +74,7 @@ export default {
      * @returns {boolean}
      */
     downloadRule() {
-      return !this.multiSelect && this.firstItemType === 'file';
+      return !this.multiSelect && this.firstItemType === "file";
     },
 
     /**
@@ -103,7 +114,7 @@ export default {
      * @returns {boolean}
      */
     zipRule() {
-      return this.selectedDiskDriver === 'local';
+      return this.selectedDiskDriver === "local";
     },
 
     /**
@@ -111,10 +122,12 @@ export default {
      * @returns {boolean}
      */
     unzipRule() {
-      return this.selectedDiskDriver === 'local' &&
-          !this.multiSelect &&
-          this.firstItemType === 'file' &&
-          this.isZip(this.selectedItems[0].extension);
+      return (
+        this.selectedDiskDriver === "local" &&
+        !this.multiSelect &&
+        this.firstItemType === "file" &&
+        this.isZip(this.selectedItems[0].extension)
+      );
     },
 
     /**

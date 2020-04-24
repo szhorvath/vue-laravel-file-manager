@@ -1,4 +1,4 @@
-import HTTP from './axios';
+import HTTP from "./axios";
 
 export default {
   /**
@@ -6,7 +6,7 @@ export default {
    * @returns {AxiosPromise<any>}
    */
   initialize() {
-    return HTTP.get('initialize');
+    return HTTP.get("initialize");
   },
 
   /**
@@ -16,7 +16,7 @@ export default {
    * @returns {AxiosPromise<any>}
    */
   tree(disk, path) {
-    return HTTP.get('tree', { params: { disk, path } });
+    return HTTP.get("tree", { params: { disk, path } });
   },
 
   /**
@@ -25,7 +25,7 @@ export default {
    * @returns {AxiosPromise<any>}
    */
   selectDisk(disk) {
-    return HTTP.get('select-disk', { params: { disk } });
+    return HTTP.get("select-disk", { params: { disk } });
   },
 
   /**
@@ -35,7 +35,7 @@ export default {
    * @returns {AxiosPromise<any>}
    */
   content(disk, path) {
-    return HTTP.get('content', { params: { disk, path } });
+    return HTTP.get("content", { params: { disk, path } });
   },
 
   /**
@@ -55,7 +55,7 @@ export default {
    * @returns {*}
    */
   url(disk, path) {
-    return HTTP.get('url', { params: { disk, path } });
+    return HTTP.get("url", { params: { disk, path } });
   },
 
   /**
@@ -65,7 +65,7 @@ export default {
    * @returns {*}
    */
   getFile(disk, path) {
-    return HTTP.get('download', { params: { disk, path } });
+    return HTTP.get("download", { params: { disk, path } });
   },
 
   /**
@@ -75,8 +75,8 @@ export default {
    * @returns {*}
    */
   thumbnail(disk, path) {
-    return HTTP.get('thumbnails', {
-      responseType: 'arraybuffer',
+    return HTTP.get("thumbnails", {
+      responseType: "arraybuffer",
       params: { disk, path },
     });
   },
@@ -88,8 +88,8 @@ export default {
    * @return {*}
    */
   preview(disk, path) {
-    return HTTP.get('preview', {
-      responseType: 'arraybuffer',
+    return HTTP.get("preview", {
+      responseType: "arraybuffer",
       params: { disk, path },
     });
   },
@@ -101,8 +101,8 @@ export default {
    * @return {*}
    */
   download(disk, path) {
-    return HTTP.get('download', {
-      responseType: 'arraybuffer',
+    return HTTP.get("download", {
+      responseType: "arraybuffer",
       params: { disk, path },
     });
   },

@@ -1,22 +1,22 @@
-import mutations from './mutations';
-import getters from './getters';
+import mutations from "./mutations";
+import getters from "./getters";
 
 // languages
-import ru from './../../lang/ru';
-import en from '../../lang/en';
-import ar from './../../lang/ar';
-import sr from './../../lang/sr';
-import cs from './../../lang/cs';
-import de from './../../lang/de';
-import es from './../../lang/es';
-import nl from './../../lang/nl';
+import ru from "./../../lang/ru";
+import en from "../../lang/en";
+import ar from "./../../lang/ar";
+import sr from "./../../lang/sr";
+import cs from "./../../lang/cs";
+import de from "./../../lang/de";
+import es from "./../../lang/es";
+import nl from "./../../lang/nl";
 /* eslint camelcase: 0 */
-import zh_CN from './../../lang/zh_CN';
-import fa from './../../lang/fa';
-import it from './../../lang/it';
-import tr from './../../lang/tr';
-import fr from './../../lang/fr';
-import pt_BR from './../../lang/pt_BR';
+import zh_CN from "./../../lang/zh_CN";
+import fa from "./../../lang/fa";
+import it from "./../../lang/it";
+import tr from "./../../lang/tr";
+import fr from "./../../lang/fr";
+import pt_BR from "./../../lang/pt_BR";
 
 export default {
   namespaced: true,
@@ -26,7 +26,7 @@ export default {
       acl: null,
 
       // App version
-      version: '2.4.14',
+      version: "2.4.14",
 
       // axios headers
       headers: {},
@@ -55,12 +55,12 @@ export default {
         de: Object.freeze(de),
         es: Object.freeze(es),
         nl: Object.freeze(nl),
-        'zh-CN': Object.freeze(zh_CN),
+        "zh-CN": Object.freeze(zh_CN),
         fa: Object.freeze(fa),
         it: Object.freeze(it),
         tr: Object.freeze(tr),
         fr: Object.freeze(fr),
-        'pt-BR': Object.freeze(pt_BR),
+        "pt-BR": Object.freeze(pt_BR),
       },
 
       // show or hide hidden files
@@ -70,122 +70,125 @@ export default {
       contextMenu: [
         [
           {
-            name: 'open',
-            icon: 'far fa-folder-open',
+            name: "open",
+            icon: "far fa-folder-open",
           },
           {
-            name: 'audioPlay',
-            icon: 'fas fa-play',
+            name: "audioPlay",
+            icon: "fas fa-play",
           },
           {
-            name: 'videoPlay',
-            icon: 'fas fa-play',
+            name: "videoPlay",
+            icon: "fas fa-play",
           },
           {
-            name: 'view',
-            icon: 'fas fa-eye',
+            name: "view",
+            icon: "fas fa-eye",
           },
           {
-            name: 'edit',
-            icon: 'fas fa-file-signature',
+            name: "edit",
+            icon: "fas fa-file-signature",
           },
           {
-            name: 'select',
-            icon: 'fas fa-check',
+            name: "select",
+            icon: "fas fa-check",
           },
           {
-            name: 'download',
-            icon: 'fas fa-download',
+            name: "download",
+            icon: "fas fa-download",
           },
-        ], [
+        ],
+        [
           {
-            name: 'copy',
-            icon: 'far fa-copy',
-          },
-          {
-            name: 'cut',
-            icon: 'fas fa-cut',
+            name: "copy",
+            icon: "far fa-copy",
           },
           {
-            name: 'rename',
-            icon: 'far fa-edit',
+            name: "cut",
+            icon: "fas fa-cut",
           },
           {
-            name: 'paste',
-            icon: 'far fa-clipboard',
+            name: "rename",
+            icon: "far fa-edit",
           },
           {
-            name: 'zip',
-            icon: 'far fa-file-archive',
+            name: "paste",
+            icon: "far fa-clipboard",
           },
           {
-            name: 'unzip',
-            icon: 'far fa-file-archive',
+            name: "zip",
+            icon: "far fa-file-archive",
           },
-        ], [
           {
-            name: 'delete',
-            icon: 'far fa-trash-alt text-danger',
+            name: "unzip",
+            icon: "far fa-file-archive",
           },
-        ], [
+        ],
+        [
           {
-            name: 'properties',
-            icon: 'far fa-list-alt',
+            name: "delete",
+            icon: "far fa-trash-alt text-danger",
+          },
+        ],
+        [
+          {
+            name: "properties",
+            icon: "far fa-list-alt",
           },
         ],
       ],
 
       // Image extensions for view and preview
-      imageExtensions: ['png', 'jpg', 'jpeg', 'gif'],
+      imageExtensions: ["png", "jpg", "jpeg", "gif"],
 
       // Image extensions for cropping
-      cropExtensions: ['png', 'jpg', 'jpeg'],
+      cropExtensions: ["png", "jpg", "jpeg"],
 
       // audio extensions for play
-      audioExtensions: ['ogg', 'mp3', 'aac', 'wav'],
+      audioExtensions: ["ogg", "mp3", "aac", "wav"],
 
       // video extensions for play
-      videoExtensions: ['webm', 'mp4'],
+      videoExtensions: ["webm", "mp4"],
 
       // File extensions for code editor
       textExtensions: {
-        sh: 'text/x-sh',
+        sh: "text/x-sh",
         // styles
-        css: 'text/css',
-        less: 'text/x-less',
-        sass: 'text/x-sass',
-        scss: 'text/x-scss',
-        html: 'text/html',
+        css: "text/css",
+        less: "text/x-less",
+        sass: "text/x-sass",
+        scss: "text/x-scss",
+        html: "text/html",
         // js
-        js: 'text/javascript',
-        ts: 'text/typescript',
-        vue: 'text/x-vue',
+        js: "text/javascript",
+        ts: "text/typescript",
+        vue: "text/x-vue",
         // text
-        htaccess: 'text/plain',
-        env: 'text/plain',
-        txt: 'text/plain',
-        log: 'text/plain',
-        ini: 'text/x-ini',
-        xml: 'application/xml',
-        md: 'text/x-markdown',
+        htaccess: "text/plain",
+        env: "text/plain",
+        txt: "text/plain",
+        log: "text/plain",
+        ini: "text/x-ini",
+        xml: "application/xml",
+        md: "text/x-markdown",
         // c-like
-        java: 'text/x-java',
-        c: 'text/x-csrc',
-        cpp: 'text/x-c++src',
-        cs: 'text/x-csharp',
-        scl: 'text/x-scala',
-        php: 'application/x-httpd-php',
+        java: "text/x-java",
+        c: "text/x-csrc",
+        cpp: "text/x-c++src",
+        cs: "text/x-csharp",
+        scl: "text/x-scala",
+        php: "application/x-httpd-php",
         // DB
-        sql: 'text/x-sql',
+        sql: "text/x-sql",
         // other
-        pl: 'text/x-perl',
-        py: 'text/x-python',
-        lua: 'text/x-lua',
-        swift: 'text/x-swift',
-        rb: 'text/x-ruby',
-        go: 'text/x-go',
-        yaml: 'text/x-yaml',
-        json: 'application/json',
+        pl: "text/x-perl",
+        py: "text/x-python",
+        lua: "text/x-lua",
+        swift: "text/x-swift",
+        rb: "text/x-ruby",
+        go: "text/x-go",
+        yaml: "text/x-yaml",
+        json: "application/json",
       },
     };
   },

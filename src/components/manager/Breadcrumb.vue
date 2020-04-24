@@ -1,30 +1,34 @@
 <template>
-    <div class="fm-breadcrumb">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb"
-                v-bind:class="[manager === activeManager ? 'active-manager' : 'bg-light']">
-                <li class="breadcrumb-item" v-on:click="selectMainDirectory">
-                    <span class="badge badge-secondary">
-                        <i class="far fa-hdd"></i>
-                    </span>
-                </li>
-                <li class="breadcrumb-item text-truncate"
-                    v-for="(item, index) in breadcrumb"
-                    v-bind:key="index"
-                    v-bind:class="[breadcrumb.length === index + 1 ? 'active' : '']"
-                    v-on:click="selectDirectory(index)">
-                    <span>{{ item }}</span>
-                </li>
-            </ol>
-        </nav>
-    </div>
+  <div class="fm-breadcrumb">
+    <nav aria-label="breadcrumb">
+      <ol
+        class="breadcrumb"
+        :class="[manager === activeManager ? 'active-manager' : 'bg-light']"
+      >
+        <li class="breadcrumb-item" @click="selectMainDirectory">
+          <span class="badge badge-secondary">
+            <i class="far fa-hdd"></i>
+          </span>
+        </li>
+        <li
+          v-for="(item, index) in breadcrumb"
+          :key="index"
+          class="breadcrumb-item text-truncate"
+          :class="[breadcrumb.length === index + 1 ? 'active' : '']"
+          @click="selectDirectory(index)"
+        >
+          <span>{{ item }}</span>
+        </li>
+      </ol>
+    </nav>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Breadcrumb',
+  name: "Breadcrumb",
   props: {
-    manager: { type: String, required: true },
+    manager: { type: String, required: true }
   },
   computed: {
     /**
@@ -57,7 +61,7 @@ export default {
      */
     breadcrumb() {
       return this.$store.getters[`fm/${this.manager}/breadcrumb`];
-    },
+    }
   },
   methods: {
     /**
@@ -65,12 +69,15 @@ export default {
      * @param index
      */
     selectDirectory(index) {
-      const path = this.breadcrumb.slice(0, index + 1).join('/');
+      const path = this.breadcrumb.slice(0, index + 1).join("/");
 
       // only if this path not selected
       if (path !== this.selectedDirectory) {
         // load directory
-        this.$store.dispatch(`fm/${this.manager}/selectDirectory`, { path, history: true });
+        this.$store.dispatch(`fm/${this.manager}/selectDirectory`, {
+          path,
+          history: true
+        });
       }
     },
 
@@ -79,30 +86,32 @@ export default {
      */
     selectMainDirectory() {
       if (this.selectedDirectory) {
-        this.$store.dispatch(`fm/${this.manager}/selectDirectory`, { path: null, history: true });
+        this.$store.dispatch(`fm/${this.manager}/selectDirectory`, {
+          path: null,
+          history: true
+        });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="scss">
-    .fm-breadcrumb {
+.fm-breadcrumb {
+  .breadcrumb {
+    flex-wrap: nowrap;
+    padding: 0.2rem 0.3rem;
+    margin-bottom: 0.5rem;
 
-        .breadcrumb {
-            flex-wrap: nowrap;
-            padding: 0.2rem 0.3rem;
-            margin-bottom: 0.5rem;
-
-            &.active-manager {
-                background-color: #c2e5eb;
-            }
-
-            .breadcrumb-item:not(.active):hover {
-                cursor: pointer;
-                font-weight: normal;
-                color: #6d757d;
-            }
-        }
+    &.active-manager {
+      background-color: #c2e5eb;
     }
+
+    .breadcrumb-item:not(.active):hover {
+      cursor: pointer;
+      font-weight: normal;
+      color: #6d757d;
+    }
+  }
+}
 </style>

@@ -1,4 +1,4 @@
-import HTTP from '../../../http/get';
+import HTTP from "../../../http/get";
 
 /**
  * Context menu actions
@@ -11,10 +11,13 @@ export default {
      */
     openAction() {
       // select directory
-      this.$store.dispatch(`fm/${this.$store.state.fm.activeManager}/selectDirectory`, {
-        path: this.selectedItems[0].path,
-        history: true,
-      });
+      this.$store.dispatch(
+        `fm/${this.$store.state.fm.activeManager}/selectDirectory`,
+        {
+          path: this.selectedItems[0].path,
+          history: true,
+        }
+      );
     },
 
     /**
@@ -22,8 +25,8 @@ export default {
      */
     audioPlayAction() {
       // show player modal
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'AudioPlayer',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "AudioPlayer",
         show: true,
       });
     },
@@ -33,8 +36,8 @@ export default {
      */
     videoPlayAction() {
       // show player modal
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'VideoPlayer',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "VideoPlayer",
         show: true,
       });
     },
@@ -44,8 +47,8 @@ export default {
      */
     viewAction() {
       // show image
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'Preview',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "Preview",
         show: true,
       });
     },
@@ -55,8 +58,8 @@ export default {
      */
     editAction() {
       // show text file
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'TextEdit',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "TextEdit",
         show: true,
       });
     },
@@ -66,34 +69,44 @@ export default {
      */
     selectAction() {
       // file callback
-      this.$store.dispatch('fm/url', {
-        disk: this.selectedDisk,
-        path: this.selectedItems[0].path,
-      }).then((response) => {
-        if (response.data.result.status === 'success') {
-          this.$store.state.fm.fileCallback(response.data.url);
-        }
-      });
+      this.$store
+        .dispatch("fm/url", {
+          disk: this.selectedDisk,
+          path: this.selectedItems[0].path,
+        })
+        .then((response) => {
+          if (response.data.result.status === "success") {
+            this.$store.state.fm.fileCallback(response.data.url);
+          }
+        });
     },
 
     /**
      * Download file
      */
     downloadAction() {
-      const tempLink = document.createElement('a');
-      tempLink.style.display = 'none';
-      tempLink.setAttribute('download', this.selectedItems[0].basename);
+      const tempLink = document.createElement("a");
+      tempLink.style.display = "none";
+      tempLink.setAttribute("download", this.selectedItems[0].basename);
 
       // download file with authorization
-      if (this.$store.getters['fm/settings/authHeader']) {
-        HTTP.download(this.selectedDisk, this.selectedItems[0].path).then((response) => {
-          tempLink.href = window.URL.createObjectURL(new Blob([response.data]));
-          document.body.appendChild(tempLink);
-          tempLink.click();
-          document.body.removeChild(tempLink);
-        });
+      if (this.$store.getters["fm/settings/authHeader"]) {
+        HTTP.download(this.selectedDisk, this.selectedItems[0].path).then(
+          (response) => {
+            tempLink.href = window.URL.createObjectURL(
+              new Blob([response.data])
+            );
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+          }
+        );
       } else {
-        tempLink.href = `${this.$store.getters['fm/settings/baseUrl']}download?disk=${this.selectedDisk}&path=${encodeURIComponent(this.selectedItems[0].path)}`;
+        tempLink.href = `${
+          this.$store.getters["fm/settings/baseUrl"]
+        }download?disk=${this.selectedDisk}&path=${encodeURIComponent(
+          this.selectedItems[0].path
+        )}`;
         document.body.appendChild(tempLink);
         tempLink.click();
         document.body.removeChild(tempLink);
@@ -105,7 +118,7 @@ export default {
      */
     copyAction() {
       // add selected items to the clipboard
-      this.$store.dispatch('fm/toClipboard', 'copy');
+      this.$store.dispatch("fm/toClipboard", "copy");
     },
 
     /**
@@ -113,7 +126,7 @@ export default {
      */
     cutAction() {
       // add selected items to the clipboard
-      this.$store.dispatch('fm/toClipboard', 'cut');
+      this.$store.dispatch("fm/toClipboard", "cut");
     },
 
     /**
@@ -121,8 +134,8 @@ export default {
      */
     renameAction() {
       // show modal - rename
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'Rename',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "Rename",
         show: true,
       });
     },
@@ -132,7 +145,7 @@ export default {
      */
     pasteAction() {
       // paste items in the selected folder
-      this.$store.dispatch('fm/paste');
+      this.$store.dispatch("fm/paste");
     },
 
     /**
@@ -140,8 +153,8 @@ export default {
      */
     zipAction() {
       // show modal - Zip
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'Zip',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "Zip",
         show: true,
       });
     },
@@ -151,8 +164,8 @@ export default {
      */
     unzipAction() {
       // show modal - Unzip
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'Unzip',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "Unzip",
         show: true,
       });
     },
@@ -162,8 +175,8 @@ export default {
      */
     deleteAction() {
       // show modal - delete
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'Delete',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "Delete",
         show: true,
       });
     },
@@ -173,8 +186,8 @@ export default {
      */
     propertiesAction() {
       // show modal - properties
-      this.$store.commit('fm/modal/setModalState', {
-        modalName: 'Properties',
+      this.$store.commit("fm/modal/setModalState", {
+        modalName: "Properties",
         show: true,
       });
     },
