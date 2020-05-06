@@ -1,5 +1,5 @@
 // Event bus
-import EventBus from './../../../eventBus';
+import EventBus from "./../../../eventBus";
 
 export default {
   computed: {
@@ -64,7 +64,10 @@ export default {
      * @param path
      */
     selectDirectory(path) {
-      this.$store.dispatch(`fm/${this.manager}/selectDirectory`, { path, history: true });
+      this.$store.dispatch(`fm/${this.manager}/selectDirectory`, {
+        path,
+        history: true,
+      });
     },
 
     /**
@@ -74,10 +77,16 @@ export default {
       // if this a not root directory
       if (this.selectedDirectory) {
         // calculate up directory path
-        const pathUp = this.selectedDirectory.split('/').slice(0, -1).join('/');
+        const pathUp = this.selectedDirectory
+          .split("/")
+          .slice(0, -1)
+          .join("/");
 
         // load directory
-        this.$store.dispatch(`fm/${this.manager}/selectDirectory`, { path: pathUp || null, history: true });
+        this.$store.dispatch(`fm/${this.manager}/selectDirectory`, {
+          path: pathUp || null,
+          history: true,
+        });
       }
     },
 
@@ -107,12 +116,16 @@ export default {
           this.$store.commit(`fm/${this.manager}/setSelected`, { type, path });
         } else {
           // remove selected item
-          this.$store.commit(`fm/${this.manager}/removeSelected`, { type, path });
+          this.$store.commit(`fm/${this.manager}/removeSelected`, {
+            type,
+            path,
+          });
         }
       }
 
       // single select
-      if (!event.ctrlKey && !alreadySelected) this.$store.commit(`fm/${this.manager}/changeSelected`, { type, path });
+      if (!event.ctrlKey && !alreadySelected)
+        this.$store.commit(`fm/${this.manager}/changeSelected`, { type, path });
     },
 
     /**
@@ -122,7 +135,7 @@ export default {
      */
     contextMenu(item, event) {
       // el type
-      const type = item.type === 'dir' ? 'directories' : 'files';
+      const type = item.type === "dir" ? "directories" : "files";
       // search in selected array
       const alreadySelected = this.selected[type].includes(item.path);
 
@@ -136,7 +149,7 @@ export default {
       }
 
       // create event
-      EventBus.$emit('contextMenu', event);
+      EventBus.$emit("contextMenu", event);
     },
 
     /**
@@ -147,14 +160,16 @@ export default {
     selectAction(path, extension) {
       // if is set fileCallback
       if (this.$store.state.fm.fileCallback) {
-        this.$store.dispatch('fm/url', {
-          disk: this.selectedDisk,
-          path,
-        }).then((response) => {
-          if (response.data.result.status === 'success') {
-            this.$store.state.fm.fileCallback(response.data.url);
-          }
-        });
+        this.$store
+          .dispatch("fm/url", {
+            disk: this.selectedDisk,
+            path,
+          })
+          .then((response) => {
+            if (response.data.result.status === "success") {
+              this.$store.state.fm.fileCallback(response.data.url);
+            }
+          });
 
         return;
       }
@@ -165,32 +180,44 @@ export default {
       }
 
       // show, play..
-      if (this.$store.state.fm.settings.imageExtensions
-        .includes(extension.toLowerCase())) {
+      if (
+        this.$store.state.fm.settings.imageExtensions.includes(
+          extension.toLowerCase()
+        )
+      ) {
         // show image
-        this.$store.commit('fm/modal/setModalState', {
-          modalName: 'Preview',
+        this.$store.commit("fm/modal/setModalState", {
+          modalName: "Preview",
           show: true,
         });
-      } else if (Object.keys(this.$store.state.fm.settings.textExtensions)
-        .includes(extension.toLowerCase())) {
+      } else if (
+        Object.keys(this.$store.state.fm.settings.textExtensions).includes(
+          extension.toLowerCase()
+        )
+      ) {
         // show text file
-        this.$store.commit('fm/modal/setModalState', {
-          modalName: 'TextEdit',
+        this.$store.commit("fm/modal/setModalState", {
+          modalName: "TextEdit",
           show: true,
         });
-      } else if (this.$store.state.fm.settings.audioExtensions
-        .includes(extension.toLowerCase())) {
+      } else if (
+        this.$store.state.fm.settings.audioExtensions.includes(
+          extension.toLowerCase()
+        )
+      ) {
         // show player modal
-        this.$store.commit('fm/modal/setModalState', {
-          modalName: 'AudioPlayer',
+        this.$store.commit("fm/modal/setModalState", {
+          modalName: "AudioPlayer",
           show: true,
         });
-      } else if (this.$store.state.fm.settings.videoExtensions
-        .includes(extension.toLowerCase())) {
+      } else if (
+        this.$store.state.fm.settings.videoExtensions.includes(
+          extension.toLowerCase()
+        )
+      ) {
         // show player modal
-        this.$store.commit('fm/modal/setModalState', {
-          modalName: 'VideoPlayer',
+        this.$store.commit("fm/modal/setModalState", {
+          modalName: "VideoPlayer",
           show: true,
         });
       }

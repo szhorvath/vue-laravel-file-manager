@@ -3,6 +3,9 @@
     <table class="table table-sm">
       <thead>
         <tr>
+          <th>
+            Actions
+          </th>
           <th class="w-65" @click="sortBy('name')">
             {{ lang.manager.table.name }}
             <template v-if="sortSettings.field === 'name'">
@@ -59,6 +62,7 @@
       </thead>
       <tbody>
         <tr v-if="!isRootPath">
+          <td></td>
           <td colspan="4" class="fm-content-item" @click="levelUp">
             <i class="fas fa-level-up-alt"></i>
           </td>
@@ -72,6 +76,7 @@
           @click="selectItem('directories', directory.path, $event)"
           @contextmenu.prevent="contextMenu(directory, $event)"
         >
+          <td></td>
           <td
             class="fm-content-item unselectable"
             :class="acl && directory.acl === 0 ? 'text-hidden' : ''"
@@ -93,6 +98,7 @@
           @dblclick="selectAction(file.path, file.extension)"
           @contextmenu.prevent="contextMenu(file, $event)"
         >
+          <td></td>
           <td
             class="fm-content-item unselectable"
             :class="acl && file.acl === 0 ? 'text-hidden' : ''"

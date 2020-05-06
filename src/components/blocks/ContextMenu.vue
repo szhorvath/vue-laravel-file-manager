@@ -42,8 +42,8 @@ export default {
       menuVisible: false,
       menuStyle: {
         top: 0,
-        left: 0
-      }
+        left: 0,
+      },
     };
   },
   computed: {
@@ -53,14 +53,14 @@ export default {
      */
     menu() {
       return this.$store.state.fm.settings.contextMenu;
-    }
+    },
   },
   mounted() {
     /**
      * Listen events
      * 'contextMenu'
      */
-    EventBus.$on("contextMenu", event => this.showMenu(event));
+    EventBus.$on("contextMenu", (event) => this.showMenu(event));
   },
   methods: {
     /**
@@ -144,8 +144,8 @@ export default {
       }
       // close context menu
       this.closeMenu();
-    }
-  }
+    },
+  },
 };
 </script>
 
